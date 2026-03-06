@@ -1,4 +1,4 @@
-![](D:\学习笔记\Picture\GitFlow原理介绍.png)
+![](D:\学习笔记\Knowledge-Burger\Picture\GitFlow原理介绍.png)
 
 # Git 的常用分支介绍
 
@@ -34,14 +34,14 @@
    所有在 Master 分支上的 Commit 应该打上 Tag，一般情况下 Master 不存在 Commit，Develop 分
    支基于 Master 分支创建。
 
-   ![](D:\学习笔记\Picture\Master Develop分支.png)
+   ![](D:\学习笔记\Knowledge-Burger\Picture\Master Develop分支.png)
 
 2. **Feature 分支**
 
    Feature 分支做完后，必须合并回 Develop 分支, 合并完分支后一般会删点这个 Feature 分支，
    毕竟保留下来意义也不大。
 
-   ![](D:\学习笔记\Picture\Feature 分支.png)
+   ![](D:\学习笔记\Knowledge-Burger\Picture\Feature 分支.png)
 
 3. **Release 分支**
 
@@ -51,14 +51,14 @@
    Release 到 Master 和 Develop， 同时在 Master 分支上打个 Tag 记住 Release 版本号，然后可以删
    除 Release 分支了。
 
-   ![](D:\学习笔记\Picture\Release分支.png)
+   ![](D:\学习笔记\Knowledge-Burger\Picture\Release分支.png)
 
 4. **Hotfix 分支**
 
    hotfix 分支基于 Master 分支创建，开发完后需要合并回 Master 和 Develop 分支，同时在
    Master 上打一个 tag。
 
-   ![](D:\学习笔记\Picture\Hotfix分支.png)
+   ![](D:\学习笔记\Knowledge-Burger\Picture\Hotfix分支.png)
 
 # Git 版本号定义
 
@@ -70,11 +70,11 @@ SemVer 的核心原则是：
 
 ### 示例（当前 `V1.0.0`)
 
-| 变更类型               | 是否存在？ | 对版本的影响                |
-| ---------------------- | ---------- | --------------------------- |
-| 新增电机参数功能       | ✅ 是       | → 必须升 MINOR → `v1.1.0`   |
-| 修复其他 bug           | ✅ 是       | 属于 PATCH，但被 MINOR 覆盖 |
-| 小优化（如日志、格式） | ✅ 是       | 也属于 PATCH，同样被覆盖    |
+| 变更类型                         | 是否存在？ | 对版本的影响                |
+| -------------------------------- | ---------- | --------------------------- |
+| 新增电机参数功能                 | ✅ 是       | → 必须升 MINOR → `v1.1.0`   |
+| 修复其他 bug                     | ✅ 是       | 属于 PATCH，但被 MINOR 覆盖 |
+| 小优化（如日志、格式）和功能扩展 | ✅ 是       | 也属于 PATCH，同样被覆盖    |
 
 ### 类比理解
 
