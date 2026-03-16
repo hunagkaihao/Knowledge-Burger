@@ -34,3 +34,20 @@
 
 ---
 
+# VCS（Version Control System 版本控制系统)
+
+**“git 中将未进行版本管控的文件通过 VCS 添加到更改的文件中”**
+这句话中的 **VCS 就是指 Git 本身**（或其他版本控制系统，如 SVN、Mercurial 等）。
+
+**详细解释**
+
+- **VCS（Version Control System）** 是一类工具的统称，用于：
+  - 跟踪文件变更；
+  - 管理代码历史；
+  - 支持多人协作；
+  - 回滚到任意历史版本。
+- 常见的 VCS 包括：
+  - **Git**（分布式，最流行）
+  - **Subversion (SVN)**（集中式）
+  - **Mercurial**
+  - **Perforce**

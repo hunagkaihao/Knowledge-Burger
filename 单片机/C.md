@@ -1104,5 +1104,7 @@ if (flags == (FLAG_DATA_READY | FLAG_CRC_OK)) {
 
 ---
 
+# volatile
 
+`volatile` 是 C/C++ 中一个**关键的类型修饰符（type qualifier）**，用于告诉编译器：**“这个变量的值可能在程序控制之外被改变，请不要优化对它的访问！”**
 
