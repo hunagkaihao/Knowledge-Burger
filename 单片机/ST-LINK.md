@@ -13,7 +13,7 @@ ST-LINK是专门针对意法半导体STM8和STM32系列芯片的仿真器。ST-L
 
 **硬件**：
 
-![](D:\学习笔记\Picture\烧录器种类.jpeg)
+![](D:\学习笔记\Knowledge-Burger\Picture\stlink\烧录器种类.jpeg)
 
 
 
@@ -29,7 +29,7 @@ ST-LINK是专门针对意法半导体STM8和STM32系列芯片的仿真器。ST-L
 - 绿色：通讯完成
 - 橙色（红色+绿色）：通讯失败
 
-![image-20260228092333710](D:\学习笔记\Picture\image-20260228092333710.png)
+![image-20260228092333710](D:\学习笔记\Knowledge-Burger\Picture\stlink\image-20260228092333710.png)
 
 | **仿真器端口** | **连接目标板** | **功能**                  |
 | -------------- | -------------- | ------------------------- |
@@ -38,7 +38,7 @@ ST-LINK是专门针对意法半导体STM8和STM32系列芯片的仿真器。ST-L
 | 3. GND         | GND            | 连接STM8目标板的电源GND   |
 | 4. RESET       | MCU RESET pin  | 连接STM8目标板的RESET PIN |
 
-![image-20260228092318935](D:\学习笔记\Picture\image-20260228092318935.png)
+![image-20260228092318935](D:\学习笔记\Knowledge-Burger\Picture\stlink\image-20260228092318935.png)
 
 | **仿真器端口**    | **连接目标板** | **功能**                              |
 | ----------------- | -------------- | ------------------------------------- |
@@ -63,7 +63,7 @@ ST-LINK是专门针对意法半导体STM8和STM32系列芯片的仿真器。ST-L
 | 19. VDD           | NC             | VDD (3.3V)                            |
 | 20. GND           | GND            | GROUND                                |
 
-![image-20260228092601391](D:\学习笔记\Picture\image-20260228092601391.png)
+![image-20260228092601391](D:\学习笔记\Knowledge-Burger\Picture\stlink\image-20260228092601391.png)
 
 # 知识补充
 

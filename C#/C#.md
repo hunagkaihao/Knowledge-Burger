@@ -153,3 +153,42 @@ Update-Database
 2. 数据在准备完成后才开始传输，客户端在接收全部数据后才处理
 3. 可能会有较高的初始延迟，数据处理开始时需要等待传输完成
 
+# 序列化
+
+`序列化`：是将内存中的对象或者对象图（一组相互引用的对象）拉平为一个可以保存或进行传输的字节流，或者 XML 节点。
+
+`反序列化`：把数据流重新构造成内存中的一个对象或者对象图。
+
+# 反射
+
+`概念`：在运行时检查并使用元数据和编译代码的操作称为反射
+
+
+
+
+
+# 自定义特性
+
+在 C# 中，**自定义特性 (Custom Attributes)** 是一种强大的元数据机制，允许你将声明性信息（如描述、规则、配置）附加到代码元素（类、方法、属性、字段等）上。这些信息可以在**编译时**被编译器检查，或在**运行时**通过**反射 (Reflection)** 读取并执行相应的逻辑。
+
+**基本模板**
+
+```C#
+using System;
+
+// 1. 指定特性可以应用的目标（如类、方法、属性），可选
+// 2. 指定是否允许多次应用同一个特性
+[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+public class MyCustomAttribute : Attribute
+{
+    // 构造函数：用于接收位置参数 (Positional Arguments)
+    public string Description { get; }
+    public int Priority { get; set; } // 命名参数 (Named Argument)，必须是可读写属性
+
+    public MyCustomAttribute(string description)
+    {
+        Description = description;
+        Priority = 1; // 默认值
+    }
+}
+```
