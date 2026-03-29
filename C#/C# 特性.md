@@ -1,3 +1,29 @@
+# 自定义特性
+
+在 C# 中，**自定义特性 (Custom Attributes)** 是一种强大的元数据机制，允许你将声明性信息（如描述、规则、配置）附加到代码元素（类、方法、属性、字段等）上。这些信息可以在**编译时**被编译器检查，或在**运行时**通过**反射 (Reflection)** 读取并执行相应的逻辑。
+
+**基本模板**
+
+```C#
+using System;
+
+// 1. 指定特性可以应用的目标（如类、方法、属性），可选
+// 2. 指定是否允许多次应用同一个特性
+[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+public class MyCustomAttribute : Attribute
+{
+    // 构造函数：用于接收位置参数 (Positional Arguments)
+    public string Description { get; }
+    public int Priority { get; set; } // 命名参数 (Named Argument)，必须是可读写属性
+
+    public MyCustomAttribute(string description)
+    {
+        Description = description;
+        Priority = 1; // 默认值
+    }
+}
+```
+
 # DisplayFormat
 
 `DisplayFormat` 特性（`[DisplayFormat]`）是 .NET (ASP.NET MVC, ASP.NET Core, Blazor) 中用于**控制数据在 UI 层显示格式**的一个强大工具。它属于 `System.ComponentModel.DataAnnotations` 命名空间。
