@@ -25,7 +25,7 @@
 | 切换为电器栅格                       | V + G + E                       |
 | 3D 视图翻转                          | V + B                           |
 | 交互式布线连接                       | Ctrl + W                        |
-|                                      |                                 |
+| 移动                                 | 选中器件 + M                    |
 |                                      |                                 |
 |                                      |                                 |
 
@@ -61,7 +61,24 @@
 
 5. 先开孔在是丝印
 
-4.  
+## DRC 报告解析
+
+| 英文名                                                       | 中文名                                    | 含义                                                         |
+| ------------------------------------------------------------ | ----------------------------------------- | ------------------------------------------------------------ |
+| Clearance Constraint (Gap=6mil) (All),(All)                  | 安全间距约束                              | 所有电气对象（走线、焊盘、过孔、铜皮等）之间的最小间距必须 ≥ **6mil**，防止短路或电气干扰 |
+| Short-Circuit Constraint (Allowed=No) (All),(All)            | 短路约束                                  | **禁止不同网络之间发生电气短路**，不允许任何跨网络的直接连接 |
+| Un-Routed Net Constraint (_(All)_)                           | 未布线网络约束                            | 所有网络必须完成完整布线，不允许存在未连接的引脚 / 焊盘      |
+| Modified Polygon (Allow modified: No), (Allow shelved: No)   | 覆铜状态约束                              | `Allow modified: No`：不允许保留 “编辑后未重铺” 的覆铜（即必须执行 `Repour` 更新形状）<br />`Allow shelved: No`：不允许搁置覆铜（即不能保留未生效的覆铜状态） |
+| Width Constraint (Min=10mil)(Max=20mil)(Preferred=15mil) (InNetClass('PWR')) | 电源线宽约束                              | 仅对 `PWR`（电源网络类）生效： 最小线宽：**10mil** 最大线宽：**20mil** 推荐线宽：**15mil** |
+| Width Constraint (Min=6mil)(Max=6mil)(Preferred=6mil) (All)  | 普通信号线宽约束                          | 对**所有其他网络**生效，线宽固定为 **6mil**（最小 = 最大 = 推荐） |
+| ower Plane Connect Rule (Relief Connect) (Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All) | **电源层连接规则**（热风焊盘 / 十字连接） | `Relief Connect`：采用**十字连接**（而非全连接），便于焊接时散热可控。`Expansion=20mil`：连接盘到平面铜皮的扩展距离。`Conductor Width=10mil`：十字连接的铜条宽度。`Air Gap=10mil`：十字连接与平面铜皮之间的气隙。`Entries=4`：采用 4 条铜条连接（标准十字形） |
+| Hole Size Constraint (Min=1mil)(Max=100mil) (All)            | 钻孔尺寸约束                              | 所有过孔 / 插件孔的孔径必须在 **1mil ~ 100mil** 之间         |
+| Silk To Solder Mask (Clearance=2mil) (IsPad),(All)           | 丝印到阻焊层间距约束                      | 丝印层文字 / 图形与焊盘阻焊开窗之间的最小间距 ≥ **2mil**     |
+| Silk to Silk (Clearance=2mil) (All),(All)                    | 丝印之间间距约束                          | 丝印层内所有文字 / 图形之间的最小间距 ≥ **2mil**             |
+
+
+
+
 
 # 问题
 
