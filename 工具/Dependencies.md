@@ -4,9 +4,7 @@
 
 - **开源地址**：[https://github.com/lucasg/Dependencies](https://github.com/lucasg/Dependencies?spm=5176.28103460.0.0.24e26308PKXVoB)
 
-- 特点
-
-  ：
+- 特点：
 
   - Dependency Walker 的现代化重写（C# + GUI）
   - 支持 **Win10/Win11 及新版 API**（如 Side-by-Side、API-MS-WIN-* 重定向）
@@ -14,7 +12,7 @@
   - 高亮 **缺失的 DLL**（红色标记）
   - 支持查看 **导出函数、导入函数**
   - 提供 **命令行版本（Dependencies.exe -h）**，适合自动化
-
+  
 - **适用场景**：日常开发、部署前检查、DLL 缺失诊断
 
 # 基本使用步骤

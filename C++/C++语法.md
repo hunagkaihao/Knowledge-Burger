@@ -236,6 +236,11 @@ int main() {
 
 `std::map` 是标准模板库（STL）中的一种**关联容器（Associative Container）**，用于存储 **键值对（key-value pairs）**，其中每个键（key）都是唯一的，并自动按键进行**排序**。
 
+std::map<Key, Value> 中的每个元素实际上是一个 std::pair<const Key, Value> 类型的对象。
+
+- .first → 键（key）
+- .second → 值（value）
+
 1. **基本特性**
 
 | 特性             | 说明                                                         |
@@ -379,7 +384,7 @@ if (scores.count("Charlie") > 0) {
 
 因为 vector “容纳着” 其他对象，所以它也常被称作**容器**。
 
-| --方法--                     | --含义--                                                     |
+| 方法                         | 含义                                                         |
 | ---------------------------- | ------------------------------------------------------------ |
 | vector\<T> v1                | v1 是一个空 vector， 它潜在的元素是 T 类型的。执行默认初始化 |
 | vector\<T> v2 (v1)           | v2 中包含有 v1 所有元素的副本                                |
@@ -395,5 +400,84 @@ if (scores.count("Charlie") > 0) {
 2. 如果用的是**花括号**，可以表述成我们想**列表初始化**（list initialize）该 vector 对象。
 3. 要想列表初始化 vector 对象，花括号里的值必须与元素**类型相同**。确定无法执行列表初始化后，编译器会尝试用默认值初始化 vector 对象。
 
+## vector 支持的操作
 
+| 方法              | 含义                                      |
+| ----------------- | ----------------------------------------- |
+| v.empty()         | 如果 v 不含有任何元素，返回真；否则返回假 |
+| v.size()          | 返回 v 中元素的个数                       |
+| v.push_back(t)    | 向 v 的尾端添加一个值为 t 的元素          |
+| v[n]              | 返回 v 中第 n 个位置上元素的索引          |
+| v1 = v2           | 用 v2 中元素的拷贝替换 v1 中的元素        |
+| v1 = {a, b, c...} | 用列表中元素的拷贝替换 v1 中的元素        |
+
+# 空语句
+
+最简单的语句是**空语句**（null statement），空语句中只会含有一个单独的分号：
+
+```C++
+;	// 空语句
+```
+
+## 使用场景
+
+如果在程序的某个地方，语法上需要一条语句但是逻辑上不需要，此时应该使用空语句。
+
+一种常见的情况是，当循环的全部工作在条件部分就可以完成时，我们通常会用到空语句。
+
+```C++
+// 重复读入数据直至到达文件末尾或某次输入的值等于 sought
+while (cin >> s && s != sought)
+    ; // 空语句
+```
+
+# ->
+
+间接成员访问
+
+当你有一个**指针**或**行为像指针的对象**（如迭代器、智能指针）时。
+
+# .
+
+直接成员访问
+
+当你有一个**对象实例**本身时。
+
+# Mutex
+
+ C++ 中用于**自动管理互斥锁（Mutex）** 的经典用法，属于 **RAII（Resource Acquisition Is Initialization）** 编程范式。它的核心目的是：**确保在作用域内安全地加锁，并在离开作用域时自动解锁，防止死锁或资源泄漏**。
+
+```c++
+// 事例代码
+void some_function() {
+    // 进入作用域
+    {
+        std::lock_guard<std::mutex> locker(m_mutex); // ← 自动加锁！
+
+        // 👇 安全操作共享资源（临界区）
+        shared_data++;
+        process(shared_data);
+        // ...
+
+    } // ← 离开作用域，locker 被销毁 → 自动调用 m_mutex.unlock()！
+}
+```
+
+# make_shared
+
+`std::make_shared` 是 C++11 引入的一个**工厂函数模板**，用于**安全、高效地创建 `std::shared_ptr` 智能指针**。
+
+```C++
+// 基本用法
+#include <memory>
+
+// 1. 创建无参构造的对象
+auto ptr1 = std::make_shared<MyClass>();
+
+// 2. 创建带参数构造的对象
+auto ptr2 = std::make_shared<MyClass>(arg1, arg2, ...);
+
+// 3. 显式指定类型（较少用）
+std::shared_ptr<MyClass> ptr3 = std::make_shared<MyClass>("hello", 42);
+```
 
