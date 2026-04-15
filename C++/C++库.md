@@ -45,3 +45,19 @@
 ### attributes
 
 - **`attrs::mutable_constant`**：创建一个可以在运行时被修改的常量属性。
+
+# chrono 库
+
+`<chrono>` 是 C++11 引入的标准库，用于**精确、类型安全地处理时间**。它解决了传统 C 风格时间函数（如 `time_t`、`clock()`）易出错、不直观的问题。
+
+## **📊 常见时间段类型**
+
+| 类型                        | 说明 |
+| :-------------------------- | :--- |
+| `std::chrono::nanoseconds`  | 纳秒 |
+| `std::chrono::microseconds` | 微秒 |
+| `std::chrono::milliseconds` | 毫秒 |
+| `std::chrono::seconds`      | 秒   |
+| `std::chrono::minutes`      | 分钟 |
+| `std::chrono::hours`        | 小时 |
+

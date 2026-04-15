@@ -481,3 +481,15 @@ auto ptr2 = std::make_shared<MyClass>(arg1, arg2, ...);
 std::shared_ptr<MyClass> ptr3 = std::make_shared<MyClass>("hello", 42);
 ```
 
+# std::find_if
+
+- 这是一个**泛型算法**，用于在范围内查找**第一个满足条件**的元素
+
+- 返回指向找到元素的**迭代器**，如果没找到则返回 `end()` 迭代器
+
+  ```
+  std::find_if(起始位置, 结束位置, 判断条件);
+
+- **`m_robots.begin()`**: 容器的起始迭代器
+- **`m_robots.end()`**: 容器的结束迭代器（不包含此位置）
+- **lambda 表达式**: 判断条件函数
