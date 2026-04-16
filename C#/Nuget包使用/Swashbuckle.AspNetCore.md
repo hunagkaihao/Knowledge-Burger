@@ -171,3 +171,18 @@ namespace SwaggerDemo.Controllers
 - **AddSwaggerGen**：负责“写文档”（生成 JSON）。
 - **UseSwaggerUI**：负责“看文档”（渲染网页）。
 - **XML 注释**：负责“说人话”（显示中文说明）。
+
+# 用法详解
+
+服务容器（DI Container）的配置，核心就是向 `builder.Services` 这个集合里“添加服务”。这个过程分为三步：
+
+## 注册服务（Register）
+
+在 `Program.cs` 中，通过 `builder.Services` 添加服务。常见的注册方式有三种：
+
+- `AddSingleton<T>()`：单例模式，整个应用生命周期内只创建一个实例。
+  - *适用场景*：配置信息、全局缓存。
+- `AddScoped<T>()`：作用域模式，每个 HTTP 请求创建一个实例。
+  - *适用场景*：数据库上下文（`ApplicationDbContext`）、业务逻辑服务。
+- `AddTransient<T>()`：瞬时模式，每次请求都创建新实例。
+  - *适用场景*：轻量级、无状态的服务。

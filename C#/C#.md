@@ -554,3 +554,6 @@ SemaphoreSlim sem = new SemaphoreSlim(3); // 最多3个线程
 
 两个线程互相等待对方占用的资源就会使双方都无法继续执行，从而形成死锁。
 
+# CRUD
+
+CRUD 是四个英文单词的缩写：**C**reate（创建）、**R**ead（读取）、**U**pdate（更新）、**D**elete（删除）。

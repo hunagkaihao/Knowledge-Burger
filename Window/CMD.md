@@ -34,5 +34,14 @@
 
 ![](D:\Project\Knowledge-Burger\Picture\Window\CMD\netstat.png)
 
+# netstat -ano | findstr :80
 
+作用：列出占用 80 端口的进程 ID (PID)
 
+![](D:\Project\Knowledge-Burger\Picture\Window\CMD\netstat -ano.png)
+
+# taskkill /PID 你的PID /F
+
+作用：关闭占用 80 端口的进程
+
+![](D:\Project\Knowledge-Burger\Picture\Window\CMD\taskkill.png)
