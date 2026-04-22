@@ -172,6 +172,26 @@ Vite 会启动一个本地开发服务器，并打印出访问地址，例如 **
 
 ![](D:\Project\Knowledge-Burger\Picture\前端\创建Vite项目4.png)
 
+打包项目：
+
+```vue
+npm run build
+```
+
+将生成一个 dist 文件
+
+**部署方式举例：**
+
+- **Nginx (最常用)**：将 `dist` 文件夹里的所有文件复制到 Nginx 的 `html` 目录下，配置好 Nginx 即可。
+
+- **IIS**：在 IIS 中新建一个网站，物理路径指向 `dist` 文件夹。
+
+- **Apache**：将文件放入 Apache 的 `htdocs` 目录。
+
+- **Docker**：通常会写一个 Dockerfile，基于 Nginx 镜像，将 `dist` 内容复制进去。
+
+  
+
 ### 修改代码并查看效果
 
 打开 src/App.vue 文件，修改代码并保存文件。
