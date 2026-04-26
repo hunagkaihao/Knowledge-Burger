@@ -61,3 +61,63 @@
 | `std::chrono::minutes`      | 分钟 |
 | `std::chrono::hours`        | 小时 |
 
+# std 库
+
+## std::find_if
+
+- 这是一个**泛型算法**，用于在范围内查找**第一个满足条件**的元素
+
+- 返回指向找到元素的**迭代器**，如果没找到则返回 `end()` 迭代器
+
+  ```
+  std::find_if(起始位置, 结束位置, 判断条件);
+  ```
+
+- **`m_robots.begin()`**: 容器的起始迭代器
+
+- **`m_robots.end()`**: 容器的结束迭代器（不包含此位置）
+
+- **lambda 表达式**: 判断条件函数
+
+## std::atomic\<T>
+
+**`std::atomic` 用来保证对某个变量的操作是“原子的”——即不会被其他线程打断，从而避免多线程下的数据竞争（data race）和未定义行为。**
+
+## std::mutex
+
+C++ 中用于**自动管理互斥锁（Mutex）** 的经典用法，属于 **RAII（Resource Acquisition Is Initialization）** 编程范式。它的核心目的是：**确保在作用域内安全地加锁，并在离开作用域时自动解锁，防止死锁或资源泄漏**。
+
+```c++
+// 事例代码
+void some_function() {
+    // 进入作用域
+    {
+        std::lock_guard<std::mutex> locker(m_mutex); // ← 自动加锁！
+
+        // 👇 安全操作共享资源（临界区）
+        shared_data++;
+        process(shared_data);
+        // ...
+
+    } // ← 离开作用域，locker 被销毁 → 自动调用 m_mutex.unlock()！
+}
+```
+
+## std::shared
+
+`std::make_shared` 是 C++11 引入的一个**工厂函数模板**，用于**安全、高效地创建 `std::shared_ptr` 智能指针**。
+
+```C++
+// 基本用法
+#include <memory>
+
+// 1. 创建无参构造的对象
+auto ptr1 = std::make_shared<MyClass>();
+
+// 2. 创建带参数构造的对象
+auto ptr2 = std::make_shared<MyClass>(arg1, arg2, ...);
+
+// 3. 显式指定类型（较少用）
+std::shared_ptr<MyClass> ptr3 = std::make_shared<MyClass>("hello", 42);
+```
+

@@ -2,6 +2,148 @@
 
 Nginx 是一款轻量级的 Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，其特点是占有内存少，并发能力强。
 
+## 正向代理
+
+如果我们把google想象成为一个资源库，则大陆局域网的客户端要访问这个资源库，就需要通过代理服务器来访问，这种代理服务就叫做正向代理。
+**简单说就是：在客户端（浏览器）配置代理服务器，通过代理服务器进行互联网访问。**
+
+## 反向代理
+
+反向代理，其实客户端对代理是无感知的，因为客户端不需要任何配置就可以访问，我们只需要将请求发送到反向代理服务器，反向代理服务器去选择目标服务器获取数据后，再返回给客户端，此时反向代理服务器和目标服务器对外就是一个服务器，**暴露的是代理服务器地址，隐藏了真实服务器IP地址。**
+
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\反向代理.png)
+
+# 负载均衡
+
+当请求变多，单体应用不能满足，我们增加服务器的数量，然后将请求分发到不同服务器上解决高并发，就是负载均衡。
+
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\负载均衡.png)
+
+### Nginx 负载均衡算法
+
+1. 轮询（Round Robin）
+
+   ```bash
+   upstream backend {
+       server backend1.example.com;
+       server backend2.example.com;
+   }
+
+特点：按顺序依次将请求分配给后端服务器，默认算法。
+适用场景：后端服务器性能相近的场景。
+
+2. 加权轮询（Weighted Round Robin）
+
+   ```bash
+   upstream backend {
+       server backend1.example.com weight=5;
+       server backend2.example.com weight=2;
+   }
+
+特点：根据 weight 参数指定权重，权重越高分配的请求越多。
+适用场景：后端服务器性能差异较大时，按性能比例分配请求。
+
+3. IP 哈希（IP Hash）
+
+```bash
+upstream backend {
+    ip_hash;
+    server backend1.example.com;
+    server backend2.example.com;
+}
+```
+
+特点：根据客户端 IP 的哈希值分配服务器，确保同一客户端始终访问同一服务器。
+适用场景：需要 session 会话保持的场景（如购物车、登录状态）。
+
+4. 最少连接（Least Connections）
+
+```bash
+upstream backend {
+    least_conn;
+    server backend1.example.com;
+    server backend2.example.com;
+}
+```
+
+特点：将请求分配给当前连接数最少的服务器。
+适用场景：处理请求耗时差异较大的场景（如动态内容与静态内容混合）。
+
+5. 加权最少连接（Weighted Least Connections）
+
+```bash
+upstream backend {
+    least_conn;
+    server backend1.example.com weight=5;
+    server backend2.example.com weight=2;
+}
+```
+
+特点：在最少连接的基础上考虑权重，优先选择连接数少且权重高的服务器。
+适用场景：结合服务器性能差异和连接状态的场景。
+
+6. 通用哈希（Generic Hash）
+
+```bash
+upstream backend {
+    hash $request_uri consistent;
+    server backend1.example.com;
+    server backend2.example.com;
+}
+```
+
+特点：根据自定义 key（如 URL、用户 ID）的哈希值分配服务器。
+参数：
+consistent：启用一致性哈希，减少服务器增减时的缓存失效问题。
+适用场景：缓存集群、分布式系统中需要固定请求路由的场景。
+
+7. 随机（Random）
+
+```bash
+upstream backend {
+    random two least_conn;
+    server backend1.example.com;
+    server backend2.example.com;
+}
+```
+
+特点：随机选择两台服务器，再根据 least_conn 或 weight 选择最优。
+参数：
+two：随机选择两台服务器。
+least_conn/weight：进一步筛选的策略。
+适用场景：需要随机化且兼顾负载的场景。
+
+8. 粘性会话（Sticky Session）
+
+```bash
+upstream backend {
+    sticky cookie srv_id expires=1h domain=.example.com path=/;
+    server backend1.example.com;
+    server backend2.example.com;
+}
+```
+
+特点：通过 Cookie 实现会话保持，需编译 ngx_http_upstream_sticky_module 模块。
+适用场景：需要会话保持但不依赖客户端 IP 的场景。
+
+| 算法     | 核心逻辑                 | 使用场景             |
+| -------- | ------------------------ | -------------------- |
+| 轮询     | 按顺序分配               | 服务器性能相近       |
+| 加权轮询 | 按权重比例分配           | 服务器性能差异大     |
+| IP 哈希  | 同一 IP 固定到同一服务器 | 需要会话保持         |
+| 最少连接 | 优先分配连接数少的服务器 | 请求耗时差异大       |
+| 通用哈希 | 自定义 key 哈希路由      | 缓存集群、分布式系统 |
+| 随机     | 随机 + 筛选              | 需要随机化的场景     |
+| 粘性会话 | 通过 Cookie 固定服务器   | 不依赖 IP 的会话保持 |
+
+## 动静分离
+
+为了加快网站的解析速度，可以把动态页面和静态页面由不同的服务器来解析，加快解析速度。降低原来单个服务器的压力。
+
+
+
+
+
 
 
 

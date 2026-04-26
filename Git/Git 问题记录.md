@@ -21,6 +21,9 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 
 1. 将公钥（`~/.ssh/id_ed25519.pub`中的内容）添加到 GitHub
+
+   ![](D:\Project\Knowledge-Burger\Picture\git\.ssh.png)
+
    - GitHub → Settings → SSH and GPG keys → New SSH key
 
 2. **用 SSH 克隆**
@@ -30,3 +33,19 @@ git clone git@github.com:huangkaihao/Knowledge-Burger.git
 ```
 
  SSH 不走 HTTPS 端口（443），不受 TLS/代理干扰，成功率更高。
+
+# 无法推送
+
+<img src="D:\Project\Knowledge-Burger\Picture\git\无法推送.png" style="zoom:100%;" />
+
+解决办法：
+
+按照上述方式建立**公钥**，然后再按下述步骤
+
+#### **修改 remote 为 SSH**
+
+注意在对应仓库打开终端输入以下命令：
+
+```
+git remote set-url origin git@github.com:huangkaihao/Knowledge-Burger.git
+```

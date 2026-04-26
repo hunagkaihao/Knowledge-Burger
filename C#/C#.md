@@ -557,3 +557,13 @@ SemaphoreSlim sem = new SemaphoreSlim(3); // 最多3个线程
 # CRUD
 
 CRUD 是四个英文单词的缩写：**C**reate（创建）、**R**ead（读取）、**U**pdate（更新）、**D**elete（删除）。
+
+# IsLetter
+
+`IsLetter` 是 C# 中一个非常实用的**字符检查方法**，用于判断一个字符是否为 Unicode 字母。
+
+```C#
+char c = 'A';
+bool result = char.IsLetter(c);  // result = true
+```
+
