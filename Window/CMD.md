@@ -45,3 +45,21 @@
 作用：关闭占用 80 端口的进程
 
 ![](D:\Project\Knowledge-Burger\Picture\Window\CMD\taskkill.png)
+
+# mkdir
+
+作用：创建目录
+
+![](D:\Project\Knowledge-Burger\Picture\Window\CMD\mkdir.png)
+
+# dir
+
+作用：查看当前目录文件信息
+
+![dir](D:\Project\Knowledge-Burger\Picture\Window\CMD\dir.png)
+
+# echo > 文件名
+
+作用：创建文件
+
+![](D:\Project\Knowledge-Burger\Picture\Window\CMD\echo.png)

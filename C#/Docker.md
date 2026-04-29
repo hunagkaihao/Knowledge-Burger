@@ -71,6 +71,7 @@ ENTRYPOINT ["dotnet", "SwaggerDemo.dll"]
    （注意最后的 . 代表当前目录）：
 
    ```dockerfile
+   # docker build -t 镜像名 .
    docker build -t my-swagger-api .
    ```
 
