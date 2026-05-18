@@ -17,7 +17,7 @@
 
 - 选择 Release 分支，点击右上角 Compare 按钮
 
-  ![](D:\学习笔记\Knowledge-Burger\Picture\Git Compare.png)
+  ![](D:\Project\Knowledge-Burger\Picture\git\Git Compare.png)
 
 - 点击 Merge requests 按钮进行合并请求，填写 PR 标题和描述，并选择目标分支
 

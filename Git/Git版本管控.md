@@ -1,4 +1,4 @@
-![](D:\学习笔记\Knowledge-Burger\Picture\GitFlow原理介绍.png)
+![](D:\Project\Knowledge-Burger\Picture\git\GitFlow原理介绍.png)
 
 # Git 的常用分支介绍
 
@@ -34,14 +34,14 @@
    所有在 Master 分支上的 Commit 应该打上 Tag，一般情况下 Master 不存在 Commit，Develop 分
    支基于 Master 分支创建。
 
-   ![](D:\学习笔记\Knowledge-Burger\Picture\Master Develop分支.png)
+   ![](D:\Project\Knowledge-Burger\Picture\git\Master Develop分支.png)
 
 2. **Feature 分支**
 
    Feature 分支做完后，必须合并回 Develop 分支, 合并完分支后一般会删点这个 Feature 分支，
    毕竟保留下来意义也不大。
 
-   ![](D:\学习笔记\Knowledge-Burger\Picture\Feature 分支.png)
+   ![](D:\Project\Knowledge-Burger\Picture\git\Feature 分支.png)
 
 3. **Release 分支**
 
@@ -51,14 +51,14 @@
    Release 到 Master 和 Develop， 同时在 Master 分支上打个 Tag 记住 Release 版本号，然后可以删
    除 Release 分支了。
 
-   ![](D:\学习笔记\Knowledge-Burger\Picture\Release分支.png)
+   ![](D:\Project\Knowledge-Burger\Picture\git\Release分支.png)
 
 4. **Hotfix 分支**
 
    hotfix 分支基于 Master 分支创建，开发完后需要合并回 Master 和 Develop 分支，同时在
    Master 上打一个 tag。
 
-   ![](D:\学习笔记\Knowledge-Burger\Picture\Hotfix分支.png)
+   ![](D:\Project\Knowledge-Burger\Picture\git\Hotfix分支.png)
 
 # Git 版本号定义
 

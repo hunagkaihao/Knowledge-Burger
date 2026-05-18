@@ -334,3 +334,54 @@ if (scores.count("Charlie") > 0) {
     // 存在（count 返回 0 或 1）
 }
 ```
+
+## std::allocator
+
+std::allocator 是标准分配器，提供了基本的内存分配和释放功能。
+
+```c++
+#include <memory>
+#include <vector>
+
+int main() {
+    std::allocator<int> alloc;
+    int* p = alloc.allocate(1); // 分配内存
+    alloc.construct(p, 42); // 构造对象
+
+    std::cout << *p << std::endl;
+
+    alloc.destroy(p); // 销毁对象
+    alloc.deallocate(p, 1); // 释放内存
+
+    return 0;
+}
+```
+
+## std::align
+
+std::align 用于调整指针的对齐方式，以确保所分配内存满足特定对齐要求。
+
+```C++
+#include <memory>
+#include <iostream>
+
+int main() {
+    alignas(16) char buffer[64];
+    void* p = buffer;
+    size_t space = sizeof(buffer);
+
+    void* aligned_ptr = std::align(16, sizeof(int), p, space);
+    if (aligned_ptr) {
+        std::cout << "Memory aligned\n";
+    } else {
+        std::cout << "Memory alignment failed\n";
+    }
+
+    return 0;
+}
+```
+
+## std::functional
+
+std::functional 它把函数、函数指针或者重载了 `()` 运算符的类对象（也就是“函数对象”或“仿函数”）包装成一种统一的、可复制、可存储的对象。
+
