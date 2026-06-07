@@ -30,7 +30,7 @@
 
 # netstat -n
 
-作用：查看主机的会话连接，目的地址和端口
+作用：查看主机的会话连接，目的地址和端口 
 
 ![](D:\Project\Knowledge-Burger\Picture\Window\CMD\netstat.png)
 
@@ -64,3 +64,10 @@
 
 ![](D:\Project\Knowledge-Burger\Picture\Window\CMD\echo.png)
 
+# telnet [主机地址] [端口号]
+
+作用：测试主机*192.168.31.100*上的*8081*端口是否被占用，可以使用以下命令：
+
+```bash
+telnet 192.168.31.100 8081
+```

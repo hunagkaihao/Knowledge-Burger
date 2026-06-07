@@ -140,15 +140,46 @@ upstream backend {
 
 为了加快网站的解析速度，可以把动态页面和静态页面由不同的服务器来解析，加快解析速度。降低原来单个服务器的压力。
 
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\动静分离.png)
 
+# Nginx 下载
 
+#### [1.打开nginx官网](http://nginx.org/en/index.html)
 
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\Nginx官网.png)
 
+#### 2.点击下载 
 
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\download.png)
 
+####  3.选择稳定版本（windows）
 
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\windowNginx.png)
 
+####  4.然后就是解析安装到指定目录下
 
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\安装.png)
+
+二、启动nginx服务器
+1.启动服务器
+使用命令提示符进入nginx中，输入一下命令(注意：回车确认是会出现一闪，这是正常现象）：
+
+```bash
+start nginx 
+```
+
+2、再是查看任务进程是否存在，dos或打开任务管理器都行
+我们以命令提示查看方式输入一下命令
+
+```bash
+tasklist /fi "imagename eq nginx.exe"
+```
+
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\NginxPid.png)
+
+####  3、最后一步是打开我们的浏览器访问刚才的域名及端口，nginx默认http://localhost:80或127.0.0.1:80，默认端口号是80，出现Welcome to nginx!就说明部署成功了！
+
+![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\启动.png)
 
 
 

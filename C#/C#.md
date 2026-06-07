@@ -299,11 +299,11 @@ Dictionary = 哈希表（Hash Table）
 
 # 全局异常捕获
 
-### 1. **AppDomain.CurrentDomain.UnhandledException**
+### 1.**AppDomain.CurrentDomain.UnhandledException**
 
 捕获 **所有线程** 的异常，终极兜底。
 
-### 2. **TaskScheduler.UnobservedTaskException**
+### 2.TaskScheduler.UnobservedTaskException**
 
 捕获 **异步 Task 未观察的异常**（最容易闪退）
 
@@ -389,9 +389,9 @@ Console.Write(s);// null
 
 # Substring
 
-- ***Substring(int startIndex)\***：从*startIndex*位置开始截取直到字符串的末尾。
+- ***Substring(int startIndex)***：从*startIndex*位置开始截取直到字符串的末尾。
 
-- ***Substring(int startIndex, int length)\***：从*startIndex*位置开始截取，长度为*length*的子字符串。
+- ***Substring(int startIndex, int length)***：从*startIndex*位置开始截取，长度为*length*的子字符串。
 
   ```C#
   string original = "Hello, World!";
@@ -567,3 +567,76 @@ char c = 'A';
 bool result = char.IsLetter(c);  // result = true
 ```
 
+# Guid
+
+GUID（Globally Unique Identifier，全局唯一标识符）在 C# 中对应的数据类型是 `Guid`。
+
+它是一个 128 位的整数（.NET 中对应 `System.Guid` 结构体），主要用来**在全世界范围内唯一地标识信息**。你可以把它理解为给数据生成一个绝对不会重复的“身份证号”。
+
+```C#
+// 1. 生成一个新的 Guid
+Guid myGuid = Guid.NewGuid();
+Console.WriteLine(myGuid); 
+// 输出示例: 3fa25e67-bb1e-4a2c-8e0d-1a2b3c4d5e6f
+
+// 2. Guid 也可以转换为字符串使用
+string guidString = myGuid.ToString();
+// 结果: "3fa25e67-bb1e-4a2c-8e0d-1a2b3c4d5e6f"
+```
+
+# StringComparison
+
+| 枚举成员                     | 比较规则                       | 说明                                                         |
+| ---------------------------- | ------------------------------ | ------------------------------------------------------------ |
+| `CurrentCulture`             | 文化敏感，区分大小写           | 使用当前线程的文化信息（如中文、英文）进行比较。适合面向用户的、需要按自然语言习惯排序的场景。 |
+| `CurrentCultureIgnoreCase`   | 文化敏感，不区分大小写         | 同上，但忽略大小写差异。                                     |
+| `InvariantCulture`           | 文化敏感（固定），区分大小写   | 使用一种与语言文化无关的固定规则进行比较。它不随用户系统设置改变，适合需要稳定排序的场景。 |
+| `InvariantCultureIgnoreCase` | 文化敏感（固定），不区分大小写 | 同上，但忽略大小写。                                         |
+| `Ordinal`                    | 二进制（序号），区分大小写     | 最常用。直接基于字符的 Unicode 编码值进行比较。速度快，结果稳定。 |
+| `OrdinalIgnoreCase`          | 二进制（序号），不区分大小写   | 最常用。基于 Unicode 编码比较，但会将小写字母视为与其大写形式相等。 |
+
+# Trim
+
+`Trim()` 是 C# 中非常常用的一个字符串处理方法，它的核心作用就是**“修剪”**——把字符串**开头和结尾**的多余内容去掉，并返回一个全新的字符串。
+
+当你不传任何参数直接调用 `.Trim()` 时，它会移除字符串开头和结尾的所有**空白字符**（包括普通的空格、制表符 `\t`、换行符 `\n`、回车符 `\r` 等）。
+
+- **作用前**：`"  Station1  "` （前后都有空格）
+- **作用后**：`"Station1"` （干干净净）
+- **应用场景**：处理用户输入、读取文件/串口/网络传输的原始数据时，防止因为多余的空格导致字符串比对失败。
+
+# FromQuery
+
+`[FromQuery]` 是 ASP.NET Core 中一个非常常用的特性（Attribute）。它的核心作用是**告诉框架，从 HTTP 请求的 URL 查询字符串（即 `?` 后面的部分）中提取数据，并自动绑定到控制器的参数上**。
+
+结合你正在开发的 AGV 调度系统项目，`[FromQuery]` 是 ASP.NET Core 中一个非常常用的特性（Attribute）。它的核心作用是**告诉框架，从 HTTP 请求的 URL 查询字符串（即 `?` 后面的部分）中提取数据，并自动绑定到控制器的参数上**。
+
+### **🎯 核心作用与适用场景**
+
+在 RESTful API 设计中，`[FromQuery]` 通常用于 **GET 请求**，适合传递一些轻量级的参数。在你的 AGV 系统中，以下场景非常适合使用它：
+
+- **分页与筛选**：比如获取任务列表时，传递页码、每页数量。
+- **状态过滤**：比如只查询“执行中”或“待处理”的 AGV 任务。
+- **简单查询条件**：比如根据特定的楼层号或 AGV 编号查询信息。
+
+### **💻 基础用法示例**
+
+假设你有一个获取 AGV 任务列表的接口，前端需要传递 `page`（页码）、`pageSize`（每页条数）和 `status`（任务状态）：
+
+**前端请求的 URL 可能是这样的：**
+`/api/agvtasks?page=1&pageSize=20&status=执行中`
+
+**后端 Controller 的写法：**
+
+```C#
+[HttpGet("api/agvtasks")]
+public IActionResult GetAgvTasks(
+    [FromQuery] int page = 1, 
+    [FromQuery] int pageSize = 20, 
+    [FromQuery] string status = "")
+{
+    // ASP.NET Core 会自动把 URL 里的 page, pageSize, status 赋值给这三个参数
+    // 你的业务逻辑...
+    return Ok();
+}
+```
