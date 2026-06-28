@@ -233,8 +233,10 @@ Nginx 是目前最流行、最轻量级的静态资源服务器，非常适合�
    }
    ```
 
-   #### **启动服务器**
+   ![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\配置示例.png)
 
+   #### **启动服务器**
+   
    - 双击 Nginx 目录下的 `nginx.exe`。
    - 或者在命令行输入 `start nginx`。
    - 打开浏览器访问 `http://localhost`（或者是你服务器的 IP 地址），你应该就能看到你的网页了。

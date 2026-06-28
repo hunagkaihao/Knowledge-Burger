@@ -8,7 +8,7 @@ VGA接口通常为D型，拥有15个针脚，分为三排，每排五个。
 
 VGA线主要用于将电脑显卡输出的图像信号传输到显示器、投影仪或其他显示设备。 
 
-![](D:\Project\Knowledge-Burger\Picture\传输线\AGV.png)
+![](D:\Project\Knowledge-Burger\Picture\传输线\VGA.png)
 
 ## VGA线的功能与特点
 

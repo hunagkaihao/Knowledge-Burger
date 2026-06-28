@@ -47,3 +47,54 @@ Kestrel 是 ASP.NET Core 应用程序的默认跨平台 HTTP 服务器。
 # ASP.NET Core Blazor
 
 客户端和服务器端都使用 C# 开发应用程序
+
+
+
+# 属性
+
+## [FromQuery]
+
+`[FromQuery]` 是一个模型绑定属性（Attribute），它的核心作用是**指示控制器方法从 HTTP 请求的查询字符串（Query String）中提取参数值**。
+
+查询字符串通常位于 URL 中 `?` 后面的部分，由多个键值对组成，并使用 `&` 符号进行分隔。
+
+假设前端发送的请求 URL 为：`/api/users?page=1&name=Alice`
+
+在后端控制器中，你可以这样接收参数：
+
+```C#
+[HttpGet("users")]
+public IActionResult GetUsers([FromQuery] int page, [FromQuery] string name)
+{
+    // page 的值为 1
+    // name 的值为 "Alice"
+    return Ok(new { page, name });
+}
+```
+
+## [FromBody]
+
+**`[FromBody]`**：数据在 HTTP 请求体（Body）中，通常用于 `POST` 或 `PUT` 请求，适合传递复杂的 JSON 对象或大量数据。
+
+**适用场景**：POST/PUT 请求，创建或更新复杂对象。
+
+**前端请求**：
+
+```http
+POST /api/products
+Content-Type: application/json
+
+{ "name": "Laptop", "price": 999.99 }
+```
+
+**后端代码**：
+
+```C#
+[HttpPost("products")]
+public IActionResult CreateProduct([FromBody] Product product)
+{
+    // product.Name = "Laptop"
+    // product.Price = 999.99
+    return Ok(product);
+}
+```
