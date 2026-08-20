@@ -159,3 +159,59 @@ public class User
   - EF 会在 `INSERT` 和 `UPDATE` 语句中**包含**此列，并使用你赋予的值。
   - 如果你不赋值，可能会报“非空列不能为 null”的错误（除非数据库有默认值且 EF 配置允许）。
 - **适用场景**：GUID 主键 (`Guid.NewGuid()` 在代码中生成)、自然主键（如身份证号、订单号）。
+
+# UnitOfWork
+
+`[UnitOfWork]` 是 **ABP 框架**（ASP.NET Boilerplate / ABP VNext）中的一个**声明式事务管理特性**，它的核心作用是：**将标记的方法内的所有数据库操作封装在同一个事务中，确保"要么全部成功提交，要么全部失败回滚"**。
+
+### **工作原理**
+
+ABP 框架底层使用 **Castle DynamicProxy（动态代理）** 技术来拦截被标记的方法调用。当方法执行时，框架会自动完成以下流程：
+
+1. **方法执行前**：自动开启一个数据库事务，并创建数据库上下文（DbContext）
+2. **方法执行中**：所有数据库操作共享同一个上下文和事务
+3. **方法正常结束**：自动提交事务（Commit）
+4. **方法抛出异常**：自动回滚事务（Rollback）
+
+### **代码示例**
+
+假设你的方法被 `[UnitOfWork]` 标记：
+
+```
+[UnitOfWork]
+public virtual async Task UpdateAndDeleteAsync()
+{
+    // 第一步：修改某个字段 → 执行成功 ✅
+    var entity = await _repo.GetAsync(1);
+    entity.Name = "新名称";
+    await _repo.UpdateAsync(entity);
+
+    // 第二步：删除某个字段 → 执行失败 ❌（比如外键约束、数据不存在等）
+    await _repo.DeleteAsync(999); // 假设这里抛异常了
+}
+```
+
+**执行结果**：
+
+- 第一步的修改操作虽然已经执行了，但因为第二步抛出了异常，事务会自动**回滚（Rollback）**
+- 第一步的修改也会被**撤销**，数据库恢复到方法执行前的状态
+- 就好像这两步操作**从来没有发生过**一样
+
+ **如果没有事务保护会怎样？**
+
+```
+// ❌ 没有 [UnitOfWork]，没有事务保护
+public async Task UpdateAndDeleteAsync()
+{
+    // 第一步：修改成功，数据已经写入数据库了
+    var entity = await _repo.GetAsync(1);
+    entity.Name = "新名称";
+    await _repo.UpdateAsync(entity); // 数据已落库
+
+    // 第二步：删除失败，抛异常
+    await _repo.DeleteAsync(999); // 💥 异常！
+
+    // 结果：修改已经生效了，但删除没执行
+    // 数据库处于"半完成"的不一致状态！
+}
+```

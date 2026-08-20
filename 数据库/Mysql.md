@@ -50,11 +50,13 @@ EXIT;
 
 # 问题
 
-1. ![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\mysql不是内部命令.png)
+1. **mysql 不是内部或外部命令**
+
+   ![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\mysql不是内部命令.png)
 
 ​	添加环境变量![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\系统变量.png)
 
-2. MySQL 服务启动失败
+2. **MySQL 服务启动失败**
 
    ![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\start fail.png)
 
@@ -66,9 +68,7 @@ mysqld --initialize-insecure
 
 ​	安装 MySql 目录（如 `cd "C:\Program Files\MySQL\MySQL Server 8.0\bin"`）下会出现一个 data 文件
 
-
-
-3. Unable to connect to any of the specified MySQL hosts，10055
+3. **Unable to connect to any of the specified MySQL hosts，10055**
 
 ### **调整 MySQL 配置：增加最大连接数**
 
@@ -94,3 +94,36 @@ Windows 系统默认分配的动态端口数量有限，高并发下容易耗尽
 2. 新建一个 `DWORD (32位) 值`，命名为 `TcpTimedWaitDelay`。
 3. 将其值设置为 `30`（十进制，表示 30 秒，最小建议值为 30）。
 4. 修改完成后，同样需要**重启计算机**生效。
+
+4. **密码不正确**
+
+   ![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\密码不正确.png)
+
+**解决方法**：
+
+1. 打开命令行，尝试用 `mysql -u root -p` 登录（如果能登录）。
+
+2. 执行 SQL 查询：
+
+   ```bash
+   SELECT user, host FROM mysql.user;
+   ```
+
+3. 检查是否有 `'root'@'localhost'` 的记录。如果没有，需要创建或修改。
+
+![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\账户信息.jpg)
+
+从 MySQL 8.0 开始，默认使用 `caching_sha2_password` 作为认证插件。而旧版 Navicat 或某些客户端可能不支持该插件，导致认证失败。
+
+- 解决方法：
+
+  1. 登录 MySQL 后，执行：
+
+     ```
+     ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '你的新密码';
+     FLUSH PRIVILEGES;
+     ```
+
+  2. 这会强制将 root 用户的认证方式改为更兼容的 `mysql_native_password`。
+
+![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\设置密码.jpg)

@@ -297,6 +297,54 @@ Dictionary = 哈希表（Hash Table）
 
 使用场景：多线程同时读写集合时
 
+## 哈希字典
+
+它就像是一个**带标签的储物柜**。你拿一个“钥匙（Key）”，就能瞬间打开柜子拿到“物品（Value）”。比如：拿“设备编号”作为 Key，瞬间拿到“工位信息”作为 Value。
+
+```C#
+// 创建一个字典：Key是设备名(string)，Value是工位信息(string)
+var workPositions = new Dictionary<string, string>();
+
+// 1. 存入数据
+workPositions["AGV-01"] = "Site-A";
+workPositions["AGV-02"] = "Site-B";
+
+// 2. 安全取出数据（推荐用法）
+if (workPositions.TryGetValue("AGV-01", out var siteName))
+{
+    Console.WriteLine($"AGV-01 的工位是: {siteName}"); // 输出 Site-A
+}
+else
+{
+    Console.WriteLine("未找到该设备！");
+}
+
+// 3. 检查是否存在
+bool hasAgv03 = workPositions.ContainsKey("AGV-03"); // 输出 False
+```
+
+---
+
+# 哈希集
+
+底层使用了**哈希表（Hash Table）**数据结构。
+
+简单来说，哈希表就像是一个**超级智能的储物柜**，不管里面存了 10 个物品还是 100 万个物品，你找任何一个物品都只需要**一瞬间**（时间复杂度为 O(1)）。
+
+```C#
+var busyPoints = new HashSet<string>();
+
+busyPoints.Add("A-01"); // 添加
+busyPoints.Add("A-01"); // 再次添加，会被自动忽略，因为不允许重复
+busyPoints.Add("B-02");
+
+Console.WriteLine(busyPoints.Count); // 输出 2
+
+bool isBusy = busyPoints.Contains("A-01"); // 瞬间判断 A-01 是否在里面，输出 True
+```
+
+---
+
 # 全局异常捕获
 
 ### 1.**AppDomain.CurrentDomain.UnhandledException**
@@ -383,6 +431,161 @@ Console.Write(y);// 5
 System.Text.StringBuilder sb = null;
 string s = sb?.ToString();
 Console.Write(s);// null
+```
+
+---
+
+# 空值宽容忍运算符：!
+
+`!` 被称为**空值宽容运算符（Null-forgiving operator）**，也叫**空值抑制运算符（Null-suppression operator）**。
+
+它的作用是**“告诉编译器：我向你保证这个变量绝对不是 null，请你不要再给我报警告了”**。
+
+它**仅仅**在编译阶段起作用，它**不会**在运行时改变变量的值，也**不会**自动帮你处理 null。如果运行时这个变量真的是 null，程序依然会抛出 `NullReferenceException`（空引用异常）。
+
+```C#
+string? name = GetName(); // 假设可能返回 null
+
+// ❌ 编译器警告：name 可能为 null，不能直接调用 .Length
+int length = name.Length; 
+
+// ✅ 使用 ! 告诉编译器：我保证 name 有值
+int length = name!.Length; 
+```
+
+---
+
+# 属性模式**（Property Pattern）**
+
+模式匹配就是一种更优雅、更强大的 `if-else` 或 `switch-case` 写法。它允许你根据数据的“形状”或“内容”来执行不同的逻辑，而不仅仅是判断相等。
+
+属性模式允许你直接检查一个对象的属性值，而无需先判断对象是否为 `null`。
+
+#### **基本语法**
+
+```
+object is { PropertyName: value }
+```
+
+#### **核心优势**
+
+- **原子性检查**：它在一个步骤中同时完成了“非空检查”和“属性值检查”。
+- **代码简洁**：避免了 `if (obj != null && obj.Property == value)` 这样的冗长写法。
+
+#### **示例**
+
+假设我们有一个表示学生的类：
+
+```C#
+public class Student
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string Grade { get; set; }
+}
+```
+
+**传统写法：**
+
+```C#
+Student student = GetStudent();
+if (student != null && student.Age >= 18 && student.Grade == "A")
+{
+    Console.WriteLine("这是一名成年的优等生。");
+}
+```
+
+**使用属性模式的写法：**
+
+```C#
+Student student = GetStudent();
+if (student is { Age: >= 18, Grade: "A" })
+{
+    Console.WriteLine("这是一名成年的优等生。");
+}
+```
+
+你看，`is { Age: >= 18, Grade: "A" }` 这一行代码清晰地表达了我们的意图：我们关心的是一个 `Age` 大于等于 18 且 `Grade` 为 "A" 的 `Student` 对象。如果 `student` 为 `null`，这个判断会直接返回 `false`，非常安全。
+
+#### **语法**
+
+```
+object is { Property: value } variableName
+```
+
+#### **示例**
+
+```C#
+if (student is { Age: >= 18, Grade: "A" } adultTopStudent)
+{
+    // 模式匹配成功，student 对象被赋值给了 adultTopStudent 变量
+    // 我们可以直接使用这个新变量，无需再进行类型转换或空值检查
+    Console.WriteLine($"{adultTopStudent.Name} 是一名成年的优等生，可以参加竞赛。");
+}
+```
+
+# 关系模式**(Relational Pattern)**
+
+你可能注意到了 `>= 18` 和 `> 8` 这样的写法，这叫**关系模式**。它允许你在模式中使用比较运算符。
+
+- **支持的运算符**：`<`, `<=`, `>`, `>=`
+- **用法**：通常和属性模式、常量模式等结合使用。
+
+**示例：**
+
+```C#
+if (student is { Age: >= 18 and <= 65 }) // 检查年龄是否在18到65之间
+{
+    Console.WriteLine("这是一名适龄工作者。");
+}
+```
+
+# 常量模式**(Constant Pattern)**
+
+检查对象是否等于某个常量值。
+
+```C#
+object obj = "hello";
+if (obj is "hello") // 检查 obj 是否等于字符串 "hello"
+{
+    Console.WriteLine("是 hello！");
+}
+```
+
+# **类型模式 (Type Pattern)**
+
+检查对象是否为某个类型，并将其转换为该类型。
+
+```C#
+object obj = new Student();
+if (obj is Student s) // 检查 obj 是否为 Student 类型，如果是，则转换为 Student 并赋值给 s
+{
+    Console.WriteLine($"学生姓名是：{s.Name}");
+}
+```
+
+# **逻辑模式 (Logical Patterns)**
+
+使用 `not`, `and`, `or` 关键字来组合多个模式。
+
+```C#
+// 使用 not 模式
+if (student is not null) 
+{
+    Console.WriteLine("学生对象不为空。");
+}
+
+// 使用 and 模式 (C# 9.0+)
+if (student is { Age: >= 18 } and { Grade: "A" })
+{
+    Console.WriteLine("成年且为优等生。");
+}
+
+// 使用 or 模式 (C# 9.0+)
+if (student is { Grade: "A" } or { Grade: "B" })
+{
+    Console.WriteLine("是优等生或良等生。");
+}
 ```
 
 ---
@@ -639,4 +842,142 @@ public IActionResult GetAgvTasks(
     // 你的业务逻辑...
     return Ok();
 }
+```
+
+---
+
+# 局部函数**（Local Functions）**
+
+**局部函数（Local Functions）**是 C# 7.0 引入的一个非常实用的特性。简单来说，它允许你**在一个方法内部定义另一个方法**。
+
+你可以把它理解为“私有方法的私有方法”。它的主要目的是：**将一段只在当前方法中使用的复杂逻辑封装起来，从而保持主流程代码的清爽和易读。**
+
+### **局部函数的三大核心特性**
+
+1. **作用域封闭**：外部类或其他方法无法调用它，它只能在定义它的那个方法内部使用。
+2. **直接捕获外部变量**：它可以**直接访问和修改**父方法中的局部变量，而不需要像普通方法那样通过参数传递。
+3. **支持异步和迭代器**：局部函数同样可以使用 `async/await` 或 `yield return`。
+
+#### **示例 1：最基础的用法（捕获外部变量）**
+
+这是局部函数最强大的地方。注意看 `CalculateTax` 是如何直接使用父方法的 `basePrice` 变量的。
+
+```C#
+public void PrintOrderDetails(double basePrice, int quantity)
+{
+    // 1. 定义局部函数：直接捕获了外部的 basePrice 变量，无需作为参数传入
+    double CalculateTotal()
+    {
+        double taxRate = 0.13;
+        return basePrice * quantity * (1 + taxRate); // 直接使用 basePrice
+    }
+
+    // 2. 调用局部函数
+    double total = CalculateTotal();
+    Console.WriteLine($"订单总价为: {total}");
+}
+```
+
+#### **示例 2：替代复杂的 Lambda 表达式**
+
+当你的逻辑只有一两行时，用 Lambda 表达式（如 `Func<>`）很优雅。但如果逻辑很复杂，Lambda 会变得难以阅读，这时候局部函数就是最佳替代品。
+
+```C#
+public void ProcessData(List<int> numbers)
+{
+    // 传统 Lambda 写法（逻辑复杂时很丑）
+    // var result = numbers.Where(n => { 
+    //     // 几十行复杂的判断逻辑... 
+    //     return true; 
+    // }).ToList();
+
+    // 局部函数写法（清晰、可维护）
+    bool IsComplexValid(int n)
+    {
+        if (n < 0) return false;
+        if (n % 2 == 0 && n > 100) return true;
+        // ... 其他复杂业务逻辑
+        return true;
+    }
+
+    // 主流程依然非常清爽
+    var validNumbers = numbers.Where(IsComplexValid).ToList();
+}
+```
+
+#### **示例 3：结合异步 (Async) 与 异常处理**
+
+在后台任务或需要特定异常处理时，局部函数非常有用。
+
+```C#
+public async Task SyncDataAsync()
+{
+    // 定义一个局部的异步重试机制
+    async Task<T> SafeFetchAsync<T>(Func<Task<T>> fetchFunc, string operationName)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            try
+            {
+                return await fetchFunc();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{operationName} 失败，重试中... {ex.Message}");
+                await Task.Delay(1000);
+            }
+        }
+        throw new Exception($"{operationName} 彻底失败！");
+    }
+
+    // 主流程：像调用普通方法一样调用它
+    var user = await SafeFetchAsync(() => GetUserFromDbAsync(), "获取用户");
+    var config = await SafeFetchAsync(() => GetConfigFromApiAsync(), "获取配置");
+}
+```
+
+#### **示例 4：结合 yield return (迭代器)**
+
+当你需要生成一个序列，但又不想暴露给外部时。
+
+```C#
+public IEnumerable<int> GetEvenNumbers(int max)
+{
+    // 局部迭代器函数
+    IEnumerable<int> Generate()
+    {
+        for (int i = 0; i <= max; i++)
+        {
+            if (i % 2 == 0) yield return i;
+        }
+    }
+
+    return Generate();
+}
+```
+
+如果你发现一段代码**只在当前方法里用了一次**，且把它抽成私有方法会导致你需要传递一堆参数，那么**局部函数**绝对是你的最佳选择！
+
+# **索引器初始化器（Indexer Initializer）**
+
+它是 C# 6.0 引入的语法糖，专门用来在创建集合（如 `Dictionary`）时，**直接通过 Key 来初始化 Value**，让代码看起来更像一张直观的“映射表”。
+
+### **语法拆解**
+
+```C#
+// 这种写法：
+[Key] = Value
+
+// 完全等价于传统的写法：
+dictionary.Add(Key, Value);
+```
+
+在你的代码中：
+
+```c#
+// 使用索引器初始化器（简洁、直观）
+[RcsTaskFeedbackMethodNames.RetreatPreparePosition2] = new byte[] { 0x39 }
+
+// 如果用老式写法，则是这样：
+PrefixByMethod.Add(RcsTaskFeedbackMethodNames.RetreatPreparePosition2, new byte[] { 0x39 });
 ```

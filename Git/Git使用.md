@@ -2,7 +2,7 @@
 
 **目的**：开发者可以将自己完成的代码修改提交给代码库的维护者，申请将这些更改合并到目标分支中
 
-### 操作流程
+# 操作流程
 
 1. **克隆项目**
 
@@ -51,3 +51,26 @@
   - **Subversion (SVN)**（集中式）
   - **Mercurial**
   - **Perforce**
+
+# 重命名仓库
+
+**GitHub**：
+
+1. 进入仓库页面后，点击顶部导航栏中的 **Settings**（设置）标签页。
+2. 在左侧边栏中向下滚动，找到 **Repository name**（仓库名称）输入框。
+3. 将当前名称 “daer” 修改为你想要的新名称（例如 “Knowledge-Burger”）。
+4. 点击下方的 **Rename**（重命名）按钮确认更改。
+
+**更新本地远程**
+
+```git
+# 查看当前远程地址
+git remote -v
+
+# 更新为新的 HTTPS 地址
+git remote set-url origin https://github.com/hunagkaihao/新仓库名.git
+
+# 或者更新为 SSH 地址（推荐）
+git remote set-url origin git@github.com:hunagkaihao/新仓库名.git
+```
+

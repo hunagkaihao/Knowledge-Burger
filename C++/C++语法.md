@@ -468,3 +468,15 @@ Maps all_maps;  // 等价于 std::map<int32_t, MapImpPtr> all_maps;
 # using
 
 是用来**起别名**的
+
+# std::vector
+
+`std::vector` 获取元素个数应使用 `.size()` 而不是 `.length`。
+
+使用 `push_back()` 方法，它会自动在 `vector` 尾部添加新元素并动态扩容。
+
+```c++
+vector<int> nums;
+// 在循环中直接添加：
+nums.push_back(temp % 10);
+```

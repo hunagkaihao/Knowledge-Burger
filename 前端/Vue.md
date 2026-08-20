@@ -212,12 +212,44 @@ npm run build
 
 它的核心作用是**告诉 Vue 不要把后面的值当成普通字符串，而是当成一段 JavaScript 代码（变量或表达式）去执行**。
 
+
+
 # v-on
+
+对于网页应用，事件监听主要分为两大类：**键盘按键事件**和**鼠标操作事件**。
 
 对于 v-on 类的事件绑定指令，可以将前缀 v-on: 使用 @ 符替代，例如 v-on:click="myFunc" 指令可以缩写成如下模样：
 
 ```vue
 @click="myFunc"
+```
+
+# v-on:submit
+
+- **`@submit`**：是 `v-on:submit` 的缩写，意思是“监听表单的提交事件”。
+- **`.prevent`**：是一个**事件修饰符**，它的作用是自动调用原生 DOM 的 `event.preventDefault()`，也就是**阻止浏览器的默认行为**。
+
+`@submit.prevent` 的作用就是：**拦截表单的默认提交行为（防止页面刷新），然后只执行你自定义的函数逻辑。**
+
+```vue
+<template>
+  <!-- 监听 submit 事件，并阻止默认刷新行为 -->
+  <form @submit.prevent="handleSubmit">
+    <input type="text" v-model="message" />
+    <button type="submit">提交</button>
+  </form>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const message = ref('')
+
+const handleSubmit = () => {
+  console.log('表单提交了，内容是：', message.value)
+  // 页面不会刷新，你可以在这里调用 axios 发送网络请求
+}
+</script>
 ```
 
 # axios 库
@@ -259,3 +291,93 @@ Axios 是一个基于 Promise 的 HTTP 客户端，可用于浏览器和 Node.js
 # 计算属性
 
 根据定义的计算逻辑来实时更新其值
+
+# ref
+
+`ref` 是 Vue 3 组合式 API 中最核心的函数之一。它的主要作用是**创建一个响应式的数据**。
+
+**创建**：用 `ref(初始值)` 来创建一个响应式数据。
+
+**读取/修改**：
+
+- 在 `<script>` 的 JavaScript 代码中，必须通过 `.value` 属性来访问或修改它的值。
+- 在 `<template>` 的模板中，Vue 会自动帮你解开 `.value`，所以直接用变量名即可。
+
+**示例代码**：
+
+```Vue
+<template>
+  <div>
+    <!-- 在模板中，直接使用变量名，不需要 .value -->
+    <p>你点击了 {{ count }} 次</p>
+    <button @click="increment">点我加 1</button>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+// 1. 创建一个响应式变量 count，初始值为 0
+const count = ref(0)
+
+// 2. 定义一个函数来修改它
+function increment() {
+  // 在 script 中，必须通过 .value 来修改值
+  count.value = count.value + 1
+}
+</script>
+```
+
+# \<any>
+
+`:any` 并不是一个独立的语法，而是 **TypeScript** 中的一个**类型注解**。它通常和 `ref` 一起出现，写作 `ref<any>(...)`。
+
+它通常作为泛型参数传递给 `ref`，用来定义 `ref` 盒子里可以装什么类型的东西。
+
+- `ref<number>(0)`：这个盒子里只能装数字。
+- `ref<string>('hello')`：这个盒子里只能装字符串。
+- `ref<any>(null)`：这个盒子里**可以装任何东西**（数字、字符串、对象、数组...）。
+
+```Vue
+<template>
+  <div>
+    <!-- 如果 user 是 null，就显示加载中 -->
+    <p v-if="!user">加载中...</p>
+    
+    <!-- 当 user 有值后，显示用户信息 -->
+    <div v-else>
+      <h3>用户：{{ user.name }}</h3>
+      <p>年龄：{{ user.age }}</p>
+    </div>
+    <button @click="fetchUser">获取用户信息</button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+// 1. 定义一个响应式变量 user
+// 我们不知道它具体是什么对象，所以先用 <any> 告诉 TypeScript “别管我”
+// 初始值设为 null，表示“暂时没有数据”
+const user = ref<any>(null)
+
+async function fetchUser() {
+  // 模拟从后台获取数据
+  const response = await new Promise(resolve => {
+    setTimeout(() => resolve({ name: '张三', age: 18, id: 1001 }), 1000)
+  })
+  
+  // 2. 把获取到的对象赋值给 user
+  // 因为定义了 <any>，所以这里可以放任何对象，TypeScript 不会报错
+  user.value = response
+}
+</script>
+```
+
+# computed
+
+它最核心的特点是：**它依赖的数据一旦发生变化，它就会自动重新计算并更新结果**。而且，如果你没有去修改它所依赖的数据，无论你读取它多少次，它都只会计算一次，然后直接返回缓存的结果（性能极高）。
+
+# watch
+
+它的核心作用是：**监听某个数据的变化，一旦数据发生改变，就立刻去执行一段特定的逻辑（比如发网络请求、操作本地存储、或者打印日志）**。

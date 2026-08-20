@@ -46,6 +46,24 @@
 
 ![](D:\Project\Knowledge-Burger\Picture\Window\CMD\taskkill.png)
 
+# netsh int ipv4 show excludedportrange protocol=tcp
+
+**作用**：查看当前系统中被保留（排除）的 TCP 端口范围
+
+![](D:\Project\Knowledge-Burger\Picture\Window\CMD\netsh int ipv4 show excludedportrange protocol=tcp.png)
+
+# net stop winnat
+
+作用：停止 Windows NAT(WinNAT) 服务。系统会释放之前被动态保留的那些 TCP/UDP 端口范围，从而让被占用的端口重新变为可用状态。
+
+注意：需要以管理员运行cmd。
+
+# net start winnat
+
+作用：重新启动 Windows NAT(WinNAT) 服务
+
+注意：需要以管理员运行cmd。
+
 # mkdir
 
 作用：创建目录
@@ -71,3 +89,23 @@
 ```bash
 telnet 192.168.31.100 8081
 ```
+
+**telnet 不是内部指令**
+
+1. 按 `Win + R` 键，输入 `optionalfeatures` 并回车。
+2. 在弹出的“Windows 功能”列表中，找到 **“Telnet 客户端”**。
+3. 勾选它，点击“确定”，等待系统应用更改即可。
+
+若 Telnet 仍不可用，可用 PowerShell 内置命令：
+
+powershell
+
+```
+Test-NetConnection 172.20.21.10 -Port 6010
+```
+
+返回 `TcpTestSucceeded: True` 表示端口开放。
+
+# 快捷键
+
+1. 全屏：Alt + Enter

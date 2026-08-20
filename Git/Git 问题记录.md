@@ -49,3 +49,20 @@ git clone git@github.com:huangkaihao/Knowledge-Burger.git
 ```
 git remote set-url origin git@github.com:huangkaihao/Knowledge-Burger.git
 ```
+
+# 找到对应仓库
+
+### **1. 检查远程仓库 URL 是否正确**
+
+- 首先确认你本地配置的远程地址是否有拼写错误、大小写不匹配，或者是否缺少 `.git` 后缀。
+  在终端中运行以下命令查看当前 URL：
+
+```
+git remote -v
+```
+
+- 如果地址有误，请使用正确的地址进行替换（例如替换为 SSH 地址）：
+
+  ```
+  git remote set-url origin git@github.com:hunagkaihao/Knowledge-Burger.git
+  ```
