@@ -78,6 +78,24 @@ Console.WriteLine(s);// Hello World
 
 ### StringBulider
 
+### string.CompareOrdinal
+
+`CompareOrdinal` 是 C# 中用于比较两个字符串的方法。它的核心特点是：**基于字符的 ASCII 码值（或 Unicode 码点）进行逐字符比较，完全忽略语言、区域设置（Culture）和大小写。**
+
+#### **语法：**
+
+```
+int result = string.CompareOrdinal(string strA, string strB);
+```
+
+#### **返回值：**
+
+- **小于 0**：`strA` 在字典序中小于 `strB`。
+- **等于 0**：`strA` 和 `strB` 完全相同。
+- **大于 0**：`strA` 在字典序中大于 `strB`。
+
+
+
 ### 文本编码和 Unicode
 
 `ASCII`：只是 Unicode 字符集的前 128 个字符
@@ -136,6 +154,20 @@ Update-Database
 2. 资源消耗低：创建一个 Thread 约 1MB 内存。线程池用现成线程，几乎无开销
 3. 系统自动管理：自动调节数量、避免 CPU 爆炸
 4. 简单易用：Task.Run/async/await 全部基于线程池
+
+## ConfigureAwait
+
+`ConfigureAwait` 是 `Task` 类的方法，用于控制 `await` 之后的代码**在哪个线程上继续执行**。
+
+```C#
+// 默认会尝试回到 await 之前的"同步上下文"继续执行
+await SomeAsyncMethod();
+
+// 不捕获上下文，await 之后可以在任意线程池线程上继续执行
+await SomeAsyncMethod().ConfigureAwait(false);
+```
+
+
 
 # 任务
 
@@ -981,3 +1013,42 @@ dictionary.Add(Key, Value);
 // 如果用老式写法，则是这样：
 PrefixByMethod.Add(RcsTaskFeedbackMethodNames.RetreatPreparePosition2, new byte[] { 0x39 });
 ```
+
+# 异常
+
+`UserFriendlyException` 是 **ABP 框架**（ASP.NET Boilerplate / ABP Framework）中预定义的一种**业务异常类**，用于向最终用户返回**可读的、友好的错误提示信息**。
+
+# 事务
+
+## [UnitOfWork]
+
+# as
+
+**作用**：安全转换，失败返回null
+
+**应用范围**：只能用于引用类型或可空值类型，不能直接as int，因为值类型不可能为null，需要的话写成int？。
+
+# JArray
+
+代表JSON里的数组
+
+`JArray` 来自 Newtonsoft.Json（Json.NET），它的类型体系是这样的：`JToken` 是抽象基类，`JContainer` 是能包含其他节点的基类，`JArray` 表示 JSON 数组，`JObject` 表示 JSON 对象，`JValue` 表示字符串、数字、布尔、null 这些原生值。
+
+| 类型      | 对应 JSON | 长相                           |
+| --------- | --------- | ------------------------------ |
+| `JObject` | 对象      | `{ "code": 0, "data": [] }`    |
+| `JArray`  | 数组      | `[ { "id": 1 }, { "id": 2 } ]` |
+| `JValue`  | 单个值    | `"abc"`、`123`、`true`、`null` |
+
+# 匿名类型
+
+**作用**：用来在不定义专门类的情况下，临时把一组只读属性打包成一个对象。
+
+```C#
+var loginData = new
+{
+    appKey = _erpSettings.AppKey,
+    appSecret = _erpSettings.AppSecret
+};
+```
+

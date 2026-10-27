@@ -56,13 +56,13 @@
 
 作用：停止 Windows NAT(WinNAT) 服务。系统会释放之前被动态保留的那些 TCP/UDP 端口范围，从而让被占用的端口重新变为可用状态。
 
-注意：需要以管理员运行cmd。
+**<span style="color:red;">注意：需要以管理员运行cmd。</span>**
 
 # net start winnat
 
 作用：重新启动 Windows NAT(WinNAT) 服务
 
-注意：需要以管理员运行cmd。
+**<span style="color:red;">注意：需要以管理员运行cmd。</span>**
 
 # mkdir
 

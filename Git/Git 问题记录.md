@@ -1,4 +1,4 @@
-# 无法下载 git 仓库
+# 1.无法下载 git 仓库
 
 ![](D:\Project\Knowledge-Burger\Picture\git\无法访问.png)
 
@@ -34,7 +34,7 @@ git clone git@github.com:huangkaihao/Knowledge-Burger.git
 
  SSH 不走 HTTPS 端口（443），不受 TLS/代理干扰，成功率更高。
 
-# 无法推送
+# 2.无法推送
 
 <img src="D:\Project\Knowledge-Burger\Picture\git\无法推送.png" style="zoom:100%;" />
 
@@ -47,10 +47,16 @@ git clone git@github.com:huangkaihao/Knowledge-Burger.git
 注意在对应仓库打开终端输入以下命令：
 
 ```
+# 模板
+git remote set-url origin "对应SSH"
+
+# 示例
 git remote set-url origin git@github.com:huangkaihao/Knowledge-Burger.git
 ```
 
-# 找到对应仓库
+origin后的内容修改为对应仓库的SSH。
+
+# 3.找到对应仓库
 
 ### **1. 检查远程仓库 URL 是否正确**
 

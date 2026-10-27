@@ -1,3 +1,30 @@
+
+
+# 语法
+
+## TRUNCATE TABLE
+
+含义：删除所有数据，自动把增主键的计数器重置为1。
+
+```mysql
+TRUNCATE TABLE 你的表名;
+```
+
+
+
+
+
+# 安装
+
+打开官网后，选择 **MySQL Community Server**，进入下载页面；
+https://dev.mysql.com/downloads/mysql/
+
+![mysql下载1](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\mysql下载1.png)
+
+![](D:\Project\Knowledge-Burger\Picture\数据库\Mysql\mysql下载.png)
+
+
+
 查看 mysql 是否安装成功（建议用管理员身份运行）
 
 ```mysql
@@ -101,7 +128,7 @@ Windows 系统默认分配的动态端口数量有限，高并发下容易耗尽
 
 **解决方法**：
 
-1. 打开命令行，尝试用 `mysql -u root -p` 登录（如果能登录）。
+1. 打开命令行，尝试用 `mysql -u root -p` 登录（如果能登录，没有设置过密码，一般没有密码按回车就行）。
 
 2. 执行 SQL 查询：
 

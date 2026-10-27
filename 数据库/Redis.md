@@ -73,6 +73,15 @@ IDatabase db = redis.GetDatabase();
 
 可以配置多个节点、密码或SSL选项以支持集群和安全连接。
 
+```C#
+// 带密码和SSL的连接（生产环境）
+var config = ConfigurationOptions.Parse("your-redis-host:6380,password=xxx,ssl=True,abortConnect=False");
+var muxer = ConnectionMultiplexer.Connect(config);
+
+// 获取数据库实例（轻量对象，无需保存）
+IDatabase db = muxer.GetDatabase();
+```
+
 **数据库编号**
 
 Redis 默认内置了 16 个独立的数据库，编号从 `0` 到 `15`。默认情况下，客户端连接的是 `0` 号数据库。
@@ -90,6 +99,11 @@ IDatabase db = mRedisClient.GetDatabase(1);
 db.StringSet("key1", "Hello Redis");
 string value = db.StringGet("key1");
 Console.WriteLine(value);
+
+// 复杂对象（需序列化）
+var user = new User { Name = "李四", Age = 25 };
+db.StringSet("user:1", JsonSerializer.Serialize(user));
+var savedUser = JsonSerializer.Deserialize<User>(db.StringGet("user:1"));
 ```
 
 - **哈希操作**

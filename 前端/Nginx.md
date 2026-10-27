@@ -241,6 +241,17 @@ Nginx 是目前最流行、最轻量级的静态资源服务器，非常适合�
    - 或者在命令行输入 `start nginx`。
    - 打开浏览器访问 `http://localhost`（或者是你服务器的 IP 地址），你应该就能看到你的网页了。
 
+# 更新nginx配置后重新加载
+
+```bath
+# 查看配置是否成功
+.\nginx.exe -t
+
+# 配置文件重新加载
+.\nginx.exe -s reload
+
+```
+
 #### **方案 A：使用 Nginx 反向代理（推荐）**
 
 既然前端已经部署在 Nginx 上了，我们可以让 Nginx 顺便把 API 请求转发给后端。这样前端代码不需要改任何 IP 地址。
@@ -281,4 +292,18 @@ server {
 1. 替换文件后还是网页还是旧页面
 
    解决方法：Ctrl + F5
+   
+2. 无法在其他设备上访问
+
+   ![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\网页无法打开.jpg)
+
+   解决方法：
+
+   1. 打开防火墙的高级设置。
+
+      ![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\防火墙高级设置.png)
+
+   2. 配置出入规则。选择对应端口允许其连接。
+
+      ![](D:\Project\Knowledge-Burger\Picture\前端\Nginx\设置出入规则.png)
 
